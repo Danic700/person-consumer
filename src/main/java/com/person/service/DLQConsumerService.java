@@ -1,6 +1,5 @@
 package com.person.service;
 
-
 import com.person.model.Person;
 import com.person.util.HttpUtil;
 import org.slf4j.Logger;
@@ -11,15 +10,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 
 @Service
-public class PersonConsumerService{
+public class DLQConsumerService {
+
     private static final Logger logger = LoggerFactory.getLogger(PersonConsumerService.class);
 
     @Value("${db-service}")
     private String dbServiceUrl;
 
-    @RabbitListener(queues = {"person.queue"})
+    @RabbitListener(queues = {"deadLetter.queue"})
     public void consumeMessage(Person person){
-        logger.info("Received Message From Person Queue: " + person);
+        logger.info("Received Message From DLQ: " + person);
         try {
             HttpUtil.sendHttpPostRequest(dbServiceUrl, person);
             logger.info("Message successfully sent to db service: " + person);
@@ -29,5 +29,4 @@ public class PersonConsumerService{
             throw e;
         }
     }
-
 }
