@@ -1,0 +1,24 @@
+spring:
+  rabbitmq:
+    listener:
+      simple:
+        retry:
+          enabled: true
+
+          ##After an interval of 3s the message should be retried.
+          initial-interval: 3s
+
+          ##Maximum 6 times the message should be retried.
+          ##It is then sent to the dead letter Queue.
+          max-attempts: 6
+
+          ##The maximum interval should not be more than 10s between two retries.
+          max-interval: 10s
+
+          ##The gap is multiplied by 2 between second repetition.
+          multiplier: 2
+
+server:
+  port: 8082
+
+db-service: http://localhost:8080/persons
