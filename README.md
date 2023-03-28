@@ -1,2 +1,2 @@
 # person-consumer
-Consume peron from RabbitMQ
+Consume person from RabbitMQ
